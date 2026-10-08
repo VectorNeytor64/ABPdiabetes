@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema Clínico de Evaluación de Diabetes Mellitus | Universidad del Sinú Elías Bechara Zainúm - Proyecto de Aula ABP">
+    <title>Evaluador Clínico de Diabetes Mellitus | Universidad del Sinú</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS Estilos Custom -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=hospital-white-v2">
+</head>
+<body>
+    <div class="app-background">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header Principal Institucional -->
+        <header class="app-header">
+            <div class="header-top-bar">
+                <div class="uni-header-brand">
+                    <img src="/imagenes/Universidad-del-sinu-Logo.png" alt="Universidad del Sinú" class="header-uni-logo" onerror="this.style.display='none';">
+                    <div class="badge-pill">
+                        <span class="pulse-dot"></span>
+                        <span>Universidad del Sinú Elías Bechara Zainúm &bull; Proyecto ABP</span>
+                    </div>
+                </div>
+                <a href="/" class="btn-back-nav">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>Volver a Presentación</span>
+                </a>
+            </div>
+            <h1>Sistema de Evaluación de Diabetes Mellitus</h1>
+            <p class="subtitle">Herramienta clínica universitaria interactiva para la interpretación de pruebas de laboratorio (GPa, HbA1c, PTOG, Casual) y factores de riesgo.</p>
+        </header>
+
+        <main class="main-grid">
+            <!-- Columna Izquierda: Formulario de Evaluación -->
+            <section class="card form-card">
+                <div class="card-header">
+                    <div class="header-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    </div>
+                    <h2>Evaluación Clínico-Laboratorial</h2>
+                </div>
+
+                <form id="diabetes-form" onsubmit="return false;">
+                    <!-- Datos Personales y Contacto del Paciente -->
+                    <div class="patient-info-section">
+                        <h3 class="section-subtitle">1. Información del Paciente</h3>
+                        
+                        <!-- Nombre del Paciente -->
+                        <div class="form-group">
+                            <label for="nombre">Nombre Completo del Paciente</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez" class="input-field" value="Paciente">
+                        </div>
+
+                        <!-- Teléfono y Correo en fila -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="telefono">Teléfono de Contacto</label>
+                                <input type="tel" id="telefono" name="telefono" placeholder="Ej. +57 300 123 4567" class="input-field">
+                            </div>
+                            <div class="form-group">
+                                <label for="correo">Correo Electrónico</label>
+                                <input type="email" id="correo" name="correo" placeholder="Ej. paciente@correo.com" class="input-field">
+                            </div>
+                        </div>
+
+                        <!-- Dirección de Hogar -->
+                        <div class="form-group">
+                            <label for="direccion">Dirección de Residencia</label>
+                            <input type="text" id="direccion" name="direccion" placeholder="Ej. Calle 123 # 45-67, Ciudad" class="input-field">
+                        </div>
+
+                        <!-- Antecedentes Médicos -->
+                        <div class="form-group">
+                            <label for="antecedentes_medicos">Antecedentes Médicos / Comorbilidades Generales</label>
+                            <textarea id="antecedentes_medicos" name="antecedentes_medicos" rows="2" placeholder="Ej. Hipertensión arterial, cirugías previas, medicamentos actuales..." class="input-field textarea-field"></textarea>
+                        </div>
+                    </div>
+
+
+                    <!-- 2. Evaluación de Síntomas Clásicos -->
+                    <div class="form-group highlight-symptoms">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="tiene_sintomas" name="tiene_sintomas" value="si">
+                            <span class="checkmark"></span>
+                            <span class="checkbox-label">
+                                <strong>¿Presenta síntomas cardinales de hiperglucemia?</strong>
+                                <small>Poliuria (orinar con frecuencia), Polidipsia (sed intensa constante) o pérdida de peso inexplicable.</small>
+                            </span>
+                        </label>
+                    </div>
+
+                    <h3 class="section-subtitle" style="margin-top: 24px; margin-bottom: 8px;">2. Pruebas de Laboratorio Clínico</h3>
+
+                    <!-- Banner de Orientación de Horarios y Ayuno -->
+                    <div class="lab-timing-guide-banner">
+                        <div class="timing-guide-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="timing-guide-info">
+                            <strong>Guía de Horarios y Ayuno para Llenar la Encuesta:</strong>
+                            <span>Registra cada prueba según el momento del día y las condiciones en que tomaste la muestra. Solo necesitas ingresar la(s) prueba(s) que tengas disponible(s).</span>
+                        </div>
+                    </div>
+
+                    <!-- Prueba 1: Glucosa en Ayunas (GPa) -->
+                    <div class="form-group lab-field-card highlight-group">
+                        <div class="lab-card-header">
+                            <div class="lab-title-wrap">
+                                <label for="gpa" class="lab-main-label">1. Glucemia en Ayunas (GPa)</label>
+                                <div class="lab-badge-row">
+                                    <span class="lab-timing-pill badge-fasting">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                        En la Mañana / Ayuno (8 a 12h)
+                                    </span>
+                                    <span class="lab-limit-badge">Límite: 30 a 400 mg/dL</span>
+                                </div>
+                            </div>
+                            <span class="live-status-pill pill-normal" id="gpa-status-pill">Normal</span>
+                        </div>
+
+                        <div class="lab-schedule-note">
+                            <strong>¿Cuándo tomarla y registrarla?</strong> A primera hora de la mañana al despertar, con un <em>ayuno estricto de 8 a 12 horas</em> (sin haber desayunado ni tomado café o jugos; solo se permite tomar agua).
+                        </div>
+                        
+                        <div class="slider-input-container">
+                            <input type="number" id="gpa" name="gpa" min="30" max="400" step="1" value="95" class="input-field number-input" placeholder="95 (Valor en ayunas)">
+                            <input type="range" id="glucosa-range" min="40" max="250" value="95" class="slider-control">
+                        </div>
+                        
+                        <div class="range-labels">
+                            <span class="range-tag tag-normal">&lt; 100 Normal</span>
+                            <span class="range-tag tag-predia">100 - 125 Prediabetes</span>
+                            <span class="range-tag tag-diab">&ge; 126 Límite Diabetes</span>
+                        </div>
+                    </div>
+
+                    <!-- Pruebas 2 y 3: HbA1c y PTOG -->
+                    <div class="form-row">
+                        <!-- Prueba 2: HbA1c -->
+                        <div class="form-group lab-field-card">
+                            <div class="lab-card-header">
+                                <div class="lab-title-wrap">
+                                    <label for="hba1c" class="lab-main-label">2. HbA1c (% Glicosilada)</label>
+                                    <div class="lab-badge-row">
+                                        <span class="lab-timing-pill badge-anytime">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 16 10"></polyline></svg>
+                                            Cualquier Hora (Sin Ayuno)
+                                        </span>
+                                        <span class="lab-limit-badge">Límite: 3.0% a 18.0%</span>
+                                    </div>
+                                </div>
+                                <span class="live-status-pill pill-neutral" id="hba1c-status-pill">Opcional</span>
+                            </div>
+
+                            <div class="lab-schedule-note">
+                                <strong>¿Cuándo registrarla?</strong> A cualquier hora del día o noche. <em>No requiere ayuno</em> ni depende de las comidas recientes, pues evalúa el promedio de los últimos 2 a 3 meses.
+                            </div>
+
+                            <input type="number" id="hba1c" name="hba1c" min="3.0" max="18.0" step="0.1" placeholder="Ej. 5.4 (Cualquier hora / Sin ayuno)" class="input-field">
+                            <div class="field-range-hints">
+                                <span>&lt; 5.7% Normal</span>
+                                <span>5.7-6.4% Prediab.</span>
+                                <span class="alert-hint">&ge; 6.5% Diab.</span>
+                            </div>
+                        </div>
+
+                        <!-- Prueba 3: PTOG 2h -->
+                        <div class="form-group lab-field-card">
+                            <div class="lab-card-header">
+                                <div class="lab-title-wrap">
+                                    <label for="ptog" class="lab-main-label">3. PTOG 2h (mg/dL)</label>
+                                    <div class="lab-badge-row">
+                                        <span class="lab-timing-pill badge-timed">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                            A las 2h Post-Carga
+                                        </span>
+                                        <span class="lab-limit-badge">Límite: 40 a 500 mg/dL</span>
+                                    </div>
+                                </div>
+                                <span class="live-status-pill pill-neutral" id="ptog-status-pill">Opcional</span>
+                            </div>
+
+                            <div class="lab-schedule-note">
+                                <strong>¿Cuándo registrarla?</strong> <em>Exactamente a las 2 horas</em> después de haber ingerido la solución oral de 75g de glucosa administrada en el laboratorio clínico.
+                            </div>
+
+                            <input type="number" id="ptog" name="ptog" min="40" max="500" step="1" placeholder="Ej. 120 (A las 2h de tomar glucosa)" class="input-field">
+                            <div class="field-range-hints">
+                                <span>&lt; 140 Normal</span>
+                                <span>140-199 Prediab.</span>
+                                <span class="alert-hint">&ge; 200 Diab.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prueba 4: Glucemia Casual -->
+                    <div class="form-group lab-field-card">
+                        <div class="lab-card-header">
+                            <div class="lab-title-wrap">
+                                <label for="casual" class="lab-main-label">4. Glucemia al Azar / Casual (mg/dL)</label>
+                                <div class="lab-badge-row">
+                                    <span class="lab-timing-pill badge-casual">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                                        Cualquier Hora (Sin Ayuno)
+                                    </span>
+                                    <span class="lab-limit-badge">Límite: 40 a 600 mg/dL</span>
+                                </div>
+                            </div>
+                            <span class="live-status-pill pill-neutral" id="casual-status-pill">Opcional</span>
+                        </div>
+
+                        <div class="lab-schedule-note">
+                            <strong>¿Cuándo tomarla y registrarla?</strong> A <em>cualquier momento del día o noche</em> sin importar cuánto tiempo pasó desde la última comida (clave especialmente ante síntomas de alarma como mucha sed u orina frecuente).
+                        </div>
+
+                        <input type="number" id="casual" name="casual" min="40" max="600" step="1" placeholder="Ej. 110 (Muestra aleatoria / cualquier hora)" class="input-field">
+                        <div class="field-range-hints">
+                            <span>&lt; 140 mg/dL Normal</span>
+                            <span class="alert-hint">&ge; 200 mg/dL (Sospecha Diagnóstica con Síntomas)</span>
+                        </div>
+                    </div>
+
+                    <!-- Acordeón / Datos de Estilo de Vida y Biometría -->
+                    <details class="advanced-section">
+                        <summary class="advanced-summary">
+                            <span>3. Datos Biométricos Opcionales (IMC, Edad, Antecedentes)</span>
+                            <svg class="chevron-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        
+                        <div class="advanced-content">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="edad">Edad (Años)</label>
+                                    <input type="number" id="edad" name="edad" min="1" max="120" placeholder="Ej. 45" class="input-field">
+                                </div>
+                                <div class="form-group">
+                                    <label for="peso">Peso Corporal (kg)</label>
+                                    <input type="number" id="peso" name="peso" min="20" max="250" step="0.5" placeholder="Ej. 72.5" class="input-field">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="estatura">Estatura (cm)</label>
+                                    <input type="number" id="estatura" name="estatura" min="100" max="230" placeholder="Ej. 170" class="input-field">
+                                </div>
+                                <div class="form-group">
+                                    <label for="antecedente">Antecedentes Familiares Directos</label>
+                                    <select id="antecedente" name="antecedente" class="input-field select-field">
+                                        <option value="no">No / Desconocido</option>
+                                        <option value="si">Sí (Padres o Hermanos con Diabetes)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+                    <button type="button" id="btn-evaluar" class="btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        <span>Ejecutar Evaluación Clínica</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Columna Derecha: Tablero de Resultados -->
+            <section class="card results-card" id="results-card">
+                <div class="card-header">
+                    <div class="header-icon icon-emerald" id="header-result-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h2>Resultado del Diagnóstico Clínico</h2>
+                </div>
+
+                <!-- Estado Inicial -->
+                <div id="results-placeholder" class="results-placeholder">
+                    <div class="placeholder-icon">🩺</div>
+                    <h3>Ingresa los datos de laboratorio</h3>
+                    <p>Completa los datos del paciente y al menos una de las pruebas clínicas. Presiona <strong>"Ejecutar Evaluación Clínica"</strong> para obtener el análisis y dictamen médico.</p>
+                </div>
+
+                <!-- Contenido Dinámico del Resultado -->
+                <div id="results-content" class="results-content hidden">
+                    <!-- Notificación de Envío de Correo -->
+                    <div id="email-status-banner" class="email-status-banner hidden">
+                        <span class="email-icon">📧</span>
+                        <span id="email-status-text">Certificado clínico enviado por correo electrónico</span>
+                    </div>
+
+                    <!-- Ficha del Paciente Evaluado -->
+                    <div class="patient-summary-card" id="patient-summary-card">
+                        <h4 class="patient-summary-title">Ficha Técnica Institucional del Paciente</h4>
+                        <div class="patient-summary-grid">
+                            <div><strong>Nombre:</strong> <span id="res-paciente-nombre">Paciente</span></div>
+                            <div><strong>Teléfono:</strong> <span id="res-paciente-telefono">No especificado</span></div>
+                            <div><strong>Correo:</strong> <span id="res-paciente-correo">No especificado</span></div>
+                            <div><strong>Dirección:</strong> <span id="res-paciente-direccion">No especificada</span></div>
+                            <div class="full-width"><strong>Antecedentes Médicos:</strong> <span id="res-paciente-antecedentes">Sin registro previo</span></div>
+                        </div>
+                    </div>
+
+                    <!-- TIPO DE DIABETES DETECTADO AUTOMÁTICAMENTE -->
+                    <div id="tipo-diabetes-container" class="tipo-diabetes-card hidden">
+                        <div class="tipo-diabetes-header">
+                            <div class="tipo-diabetes-icon-wrap" id="tipo-diabetes-icon">🔬</div>
+                            <div class="tipo-diabetes-header-text">
+                                <span class="tipo-diabetes-label">TIPO DE DIABETES MELLITUS DETECTADO</span>
+                                <strong class="tipo-diabetes-nombre" id="tipo-diabetes-nombre">—</strong>
+                            </div>
+                            <span class="tipo-diabetes-badge" id="tipo-diabetes-badge">—</span>
+                        </div>
+                        <p class="tipo-diabetes-desc" id="tipo-diabetes-desc"></p>
+                        <div class="tipo-diabetes-indicadores" id="tipo-diabetes-indicadores-wrap">
+                            <span class="tipo-diab-ind-title">📌 Indicadores clínicos que sustentan este tipo:</span>
+                            <ul id="tipo-diabetes-indicadores"></ul>
+                        </div>
+                        <div class="tipo-diabetes-advertencia" id="tipo-diabetes-advertencia"></div>
+                    </div>
+
+
+                    <!-- Medidor Visual de Glucosa -->
+                    <div class="gauge-container">
+                        <div class="gauge-header">
+                            <span class="gauge-title">Nivel de Medición Clínico</span>
+                            <span class="gauge-value" id="res-glucosa-val">95 mg/dL</span>
+                        </div>
+                        
+                        <div class="gauge-bar-wrapper">
+                            <div class="gauge-bar">
+                                <div class="gauge-zone zone-hipo" title="Normal Bajo (< 70)"></div>
+                                <div class="gauge-zone zone-normal" title="Normal (70-99)"></div>
+                                <div class="gauge-zone zone-predia" title="Prediabetes (100-125)"></div>
+                                <div class="gauge-zone zone-diab" title="Límite Diabetes (>= 126)"></div>
+                            </div>
+                            <div class="gauge-pointer" id="gauge-pointer" style="left: 35%;">
+                                <div class="pointer-pin"></div>
+                            </div>
+                        </div>
+
+                        <div class="gauge-ticks">
+                            <span>0</span>
+                            <span>70</span>
+                            <span>100</span>
+                            <span>126</span>
+                            <span>250+</span>
+                        </div>
+                    </div>
+
+                    <!-- Insignia de Diagnóstico -->
+                    <div class="status-banner" id="status-banner">
+                        <div class="status-meta">
+                            <span class="status-label">DICTAMEN DIAGNÓSTICO</span>
+                            <h3 class="status-title" id="res-diagnostico">VALORES NORMALES</h3>
+                        </div>
+                        <div class="risk-badge" id="res-riesgo-badge">Riesgo Bajo</div>
+                    </div>
+
+                    <!-- Criterio Clínico / Motivo Médicamente Explicado -->
+                    <div class="motivo-block">
+                        <strong>Criterio Clínico Aplicado:</strong>
+                        <p id="res-motivo">Ninguna de las pruebas ingresadas supera los umbrales de prediabetes o diabetes.</p>
+                    </div>
+
+                    <!-- Factores de Riesgo Detectados -->
+                    <div class="risk-factors-block hidden" id="risk-factors-container">
+                        <h4>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            Hallazgos Clínicos Detectados:
+                        </h4>
+                        <ul class="risk-list" id="risk-factors-list"></ul>
+                    </div>
+
+                    <!-- Lista de Recomendaciones -->
+                    <div class="recommendations-block">
+                        <h4>Plan de Recomendaciones Médicas:</h4>
+                        <ul class="rec-list" id="res-recomendaciones"></ul>
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="action-buttons">
+                        <button type="button" class="btn-secondary" onclick="window.print()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                            Imprimir / Guardar Reporte PDF
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Banner de Descargo Institucional -->
+        <footer class="disclaimer-banner">
+            <div class="disclaimer-icon">🏛️</div>
+            <div class="disclaimer-text">
+                <strong>AVISO ACADÉMICO E INFORMACIÓN MÉDICA:</strong>
+                Esta aplicación web es un proyecto de aula (ABP) desarrollado por estudiantes pertenecientes a la <em>Universidad del Sinú Elías Bechara Zainúm</em> para fines formativos y de orientación preventiva. En pacientes asintomáticos con 1 sola prueba alterada en el límite, se requiere confirmación diagnóstica formal mediante un segundo estudio de laboratorio en un día diferente.
+            </div>
+        </footer>
+    </div>
+
+    <!-- MODAL POPUP DE ALERTA MÉDICA CRÍTICA CON ALARMA SONORA -->
+    <div id="modal-alerta-critica" class="modal-overlay hidden" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+        <div class="modal-card modal-critical">
+            <div class="modal-header-emergency">
+                <div class="emergency-icon-pulse">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="sound-wave-badge">
+                    <span class="sound-dot"></span>
+                    <span>ALERTA AUDITIVA ACTIVA</span>
+                </div>
+            </div>
+            
+            <h2 id="modal-title" class="critical-title">🚨 ¡ALERTA DE ATENCIÓN CLÍNICA URGENTE!</h2>
+            <p class="critical-subtitle" id="modal-subtitle">Se ha detectado un nivel de glucosa en rango crítico / límite diagnóstico de Diabetes Mellitus (GPa ≥ 126 mg/dL, HbA1c ≥ 6.5% o PTOG/Casual ≥ 200 mg/dL).</p>
+
+            <div class="critical-details-box">
+                <div class="critical-patient-info">
+                    <strong>Paciente:</strong> <span id="modal-paciente-nombre">Paciente</span><br>
+                    <strong>Contacto:</strong> <span id="modal-paciente-contacto">No especificado</span>
+                </div>
+                <div class="critical-warning-msg" id="modal-warning-msg">
+                    <strong>⚠️ Indicación Médica Inmediata:</strong>
+                    El paciente ha alcanzado o superado el umbral clínico crítico. Por favor diríjase de inmediato a una consulta médica de urgencia para recibir evaluación y manejo terapéutico profesional.
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" id="btn-cerrar-alerta" class="btn-emergency-stop">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                    <span>Entendido - Silenciar Alarma y Continuar</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Controlador JS -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
